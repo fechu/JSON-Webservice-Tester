@@ -18,6 +18,7 @@
 	<div id="wrapper">
 		<div id="header"><a href="index.html">Webservice Tests</a></div>
 		<div id="content">
+		<div id="form"> 
 		<table border="0" cellpadding="4" frame="border">
 			<tr align="center" >
 				<td>Webservice URL<br><input type="text" name="url" value="http://webservice.fidelisfactory.ch"/></td>
@@ -26,11 +27,17 @@
 				<td><br>JSON<br><textarea></textarea></td>
 			</tr>
 			<tr align="center" >
-				<td><br><input type="button" name="submit" value="Abschicken!" /> </td>
+				<td><br><input type="button" name="submit" value="Start Request!" /> </td>
 
 			</tr>
 		</table>
-		
+		</div>
+		<div id="loading"><center><h2><img src="img/loading.gif"> Loading...</h2></center></div>
+		<div id="result">
+			<h2>Result</h2>
+			<div class="result"></div>
+			<center><input type="button" name="back" value="Back" onclick="javascript:backToForm();" /></center>
+		</div>
 		</div>
 		<div id="copyright">Copyright 2011 by <a href="http://www.fidelisfactory.ch">FidelisFactory</a></div>
 	</div>
