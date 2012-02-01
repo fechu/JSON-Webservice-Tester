@@ -15,7 +15,7 @@ $(document).ready(function() {
 		
 		// Start the ajax request
 		$.ajax({
-			contentType: 'application/json',
+			contentType: 'application/json; charset=utf-8',
 			data: jsonContent,
 			url: url,
 			type: 'POST', 
@@ -43,7 +43,7 @@ $(document).ready(function() {
 			            message += "HTTP Error (" + request.status + " " + request.statusText + ").";
 			    }
 			    message += "\n";
-			    alert(message);
+			    alert(message + errorThrown);
 			    
 			    $("#loading").slideUp();
 			    $("#form").slideDown();
