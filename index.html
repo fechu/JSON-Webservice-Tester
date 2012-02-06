@@ -4,9 +4,17 @@
 	<meta charset="utf-8">
 	<title>JSON Webservice Tester</title>
 	
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<link rel="stylesheet" href="css/bootstrap.css" type="text/css" />	
 	<link rel="stylesheet" href="css/style.css" type="text/css" />
+
 	
 	<script src="javascript/jQuery.js" type="text/javascript"></script>
+	<script src="javascript/bootstrap-dropdown.js" type="text/javascript"></script>
 	<script src="javascript/main.js" type="text/javascript"></script>
 	
 	<!--[if lt IE 9]>
@@ -14,32 +22,61 @@
 	
 	<![endif]-->
 </head>
-<body onload="prettyPrint()">
-	<div id="wrapper">
-		<div id="header"><a href="index.html">JSON Webservice Tester</a></div>
-		<div id="content">
-		<div id="form"> 
-		<table border="0" cellpadding="4" frame="border">
-			<tr align="center" >
-				<td>Webservice URL<br><input type="text" name="url" value="http://webservice.fidelisfactory.ch"/></td>
-			</tr>
-			<tr align="center" >
-				<td><br>JSON<br><textarea></textarea></td>
-			</tr>
-			<tr align="center" >
-				<td><br><input type="button" name="submit" value="Start Request!" /> </td>
-
-			</tr>
-		</table>
+<body>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="#">JSON Webservice Tester</a>
+				<ul class="nav">
+				    <ul class="nav pull-right">
+				    	<li class="dropdown">
+				    		<a class="dropdown-toggle" data-toggle="dropdown">Requests <b class="caret"></b></a>
+				    		<ul class="dropdown-menu">
+				    			<li><a href="#">Test</a></li>
+				    		</ul>
+				    	</li>
+				    </ul>
+				</ul>
+			</div>
 		</div>
-		<div id="loading"><center><h2><img src="img/loading.gif"> Laden...</h2></center></div>
-		<div id="result">
-			<h2>Resultat</h2>
-			<div class="result"></div>
-			<center><input type="button" name="back" value="Back" onclick="javascript:backToForm();" /></center>
-		</div>
-		</div>
-		<div id="copyright">Copyright 2011 by <a href="http://www.fidelisfactory.ch">FidelisFactory</a></div>
 	</div>
+	
+	<div class="container">
+		<div class="content">
+			<div class="row">
+				<div class="span12">
+		
+					<div id="form" class="offset2 span8"> 
+					<form onsubmit="$('#json').focus();return false;">
+						<legend>JSON Request</legend>
+						<label class="control-label" for="location">Location</label>
+						<input type="text" class="input-xlarge span8" id="location"/>
+						
+						<label class="control-label" for="json">JSON Data</label>
+						<textarea id="json" class="input-xlarge span8" rows="20"></textarea>
+						
+						<div class="form-actions">
+							<span class="btn btn-primary" onclick="sendRequest();">Send</span>
+							<span class="btn pull-right">Save</span>
+						</div>
+					</form>
+					</div>
+				
+					<div id="loading" class="span12">
+						<center><h2><img src="img/loading.gif"> Laden...</h2></center>
+					</div>
+					
+					<div id="result" class="span8 offset2">
+						<legend>Resultat</legend>
+						<div id="response"> </div>
+						<div class="form-actions">
+							<span class="btn" onclick="backToForm();">Zurück</span>
+						</div>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</div>
+		
 </body>
 </html>

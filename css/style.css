@@ -1,83 +1,23 @@
-* {
-	margin: 0;
-	padding: 0;
-}
 
 body {
-	color: white;
+	padding-top: 40px;	/*To go down the height of the navbar*/
+
 	font-family: "Verdana", "Lucida Grande", Lucida, sans-serif;
 }
 
-#wrapper {
-	padding: 10px;
-	margin: 20px auto;
-	
-	width: 800px;
-	
-	background-color: rgba(240, 114, 21, 1.0);
-	border-radius: 6px;
-	-moz-box-shadow: 0 2px 4px black;
-	-webkit-box-shadow: 0 2px 4px black;
-	box-shadow: 0 2px 4px black;
-}
-
-#header {
-	text-align: right;
-	font-size: xx-large;
-	font-weight: bold;
-	
-	padding-bottom: 10px;
-	margin-bottom: 30px;
-	
-	border-bottom: 1px solid #FFF;
-	font-variant: small-caps;
-}
-
-#copyright {
-	border-top: 1px solid #FFF;
-	margin-top: 20px;
-	
-	padding-top: 10px;
-	
-	text-align: center;
-	font-size: small;
-}
-
-a {
-	color: white;
-	text-decoration: none;
-}
-
-a:hover {
-	text-shadow: 0 2px 2px black;
-	
-}
-
 .result {
-	margin: 5px;
-	padding: 5px;
-
-	border: 1px solid #FFF;
+	border: 1px solid #000000;
 }
 
-/* @group Elements */
-
-input {
-	width: 80%;
+/* The white background content wrapper */
+.content {
+	background-color: #fff;
+	padding: 20px;
+	margin: 0 -20px; /* negative indent the amount of the padding to maintain the grid system */
+	-webkit-border-radius: 0 0 6px 6px;
+	-moz-border-radius: 0 0 6px 6px;
+	border-radius: 0 0 6px 6px;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	box-shadow: 0 1px 2px rgba(0,0,0,.15);
 }
-
-input[type=button] {
-	width: auto;
-}
-
-textarea {
-	width: 80%;
-	height: 200px;
-}
-
-table {
-	border: 0;
-	width: 100%;
-}
-
-/* @end */
