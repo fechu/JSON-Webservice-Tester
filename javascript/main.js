@@ -5,6 +5,8 @@ $(document).ready(function() {
 	$("#loading").hide();
 	$("#result").hide();
 	
+	loadRequests();
+		
 });
 
 function sendRequest()
@@ -47,11 +49,68 @@ function sendRequest()
 		    }
 		    message += "\n";
 		    alert(message + errorThrown);
+		    $("#response").html(request.responseText);
 		    
 		    $("#loading").slideUp();
-		    $("#form").slideDown();
+		    $("#result").slideDown();
 		}
 	});
+	
+}
+
+
+function saveRequest()
+{
+	var name = $("#requestName").val();
+	var location = $("#location").val();
+	var json = $("#json").val();
+		
+	var requests = JSON.parse(localStorage.getItem('requests'));
+	if (requests == null) {
+		requests = new Array();
+	}
+	
+	var request = new Object();
+	request['name'] = name;
+	request['location'] = location;
+	request['json'] = json;
+	
+	requests.push(request);
+	
+	localStorage.setItem('requests', JSON.stringify(requests));
+	
+	// hide the modal
+	$("#saveDialog").modal('hide');
+	
+	// Reload the requests
+	loadRequests();
+}
+
+function loadRequests()
+{
+	// Emtpy the menu.
+	$("#requestsMenu").html("");
+
+	requests = JSON.parse(localStorage.getItem('requests'));
+	if (requests == null || requests.length == 0) {
+		$("#requestsMenu").append("<li><a href=\"#\" class=\"disabled\">No saved requests</a></li>");
+	}
+	else {
+		// Add them 
+		for (var i=0; i < requests.length; i++)
+		{
+			$("#requestsMenu").append("<li><a href=\"#\" onclick=\"loadRequest("+ i +");\">"+ requests[i].name +"</a></li>");
+		}
+	}
+}
+
+function loadRequest(index)
+{
+	var requests = JSON.parse(localStorage.getItem('requests'));
+	var request = requests[index];
+	
+	$("#location").val(request['location']);
+	$("#json").val(request['json']);
 	
 }
 

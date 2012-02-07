@@ -14,7 +14,7 @@
 
 	
 	<script src="javascript/jQuery.js" type="text/javascript"></script>
-	<script src="javascript/bootstrap-dropdown.js" type="text/javascript"></script>
+	<script src="javascript/bootstrap.min.js" type="text/javascript"></script>
 	<script src="javascript/main.js" type="text/javascript"></script>
 	
 	<!--[if lt IE 9]>
@@ -31,7 +31,7 @@
 				    <ul class="nav pull-right">
 				    	<li class="dropdown">
 				    		<a class="dropdown-toggle" data-toggle="dropdown">Requests <b class="caret"></b></a>
-				    		<ul class="dropdown-menu">
+				    		<ul id="requestsMenu" class="dropdown-menu">
 				    			<li><a href="#">Test</a></li>
 				    		</ul>
 				    	</li>
@@ -57,7 +57,22 @@
 						
 						<div class="form-actions">
 							<span class="btn btn-primary" onclick="sendRequest();">Send</span>
-							<span class="btn pull-right">Save</span>
+							<span class="btn pull-right" data-toggle="modal" href="#saveDialog" onclick="$('#requestName').val('');">Save</span>
+						</div>
+						<!-- The modal dialog to save-->
+						<div id="saveDialog" class="modal hide fade" style="display: none;">
+							<div class="modal-header">
+							 	<h3>Name</h3>
+							</div>
+							<div class="modal-body">
+								<center>
+								<input class="span6" id="requestName" type="text"/>
+								</center>
+							</div>
+							<div class="modal-footer">
+								<a href="#" class="btn btn-primary" onclick="saveRequest();">Save</a>
+								<a href="#" class="btn" data-dismiss="modal">Close</a>
+							</div>
 						</div>
 					</form>
 					</div>
