@@ -95,6 +95,7 @@ function loadRequests()
 {
 	// Emtpy the menu.
 	$("#requestsMenu").html("");
+	$("#manageTable").html("");
 
 	requests = JSON.parse(localStorage.getItem('requests'));
 	if (requests == null || requests.length == 0) {
@@ -105,7 +106,13 @@ function loadRequests()
 		for (var i=0; i < requests.length; i++)
 		{
 			$("#requestsMenu").append("<li><a href=\"#\" onclick=\"loadRequest("+ i +");\">"+ requests[i].name +"</a></li>");
+			$("#manageTable").append('<tr><td>' + requests[i].name + '</td><td><a href="#" class="btn btn-danger pull-right" onclick="removeRequest('+ i +'); loadRequests();">Remove</a></td></tr>');
 		}
+		
+		// Add the manage button
+		$("#requestsMenu").append('<li class="divider"></li>');
+		$("#requestsMenu").append('<li><a data-toggle="modal" href="#manageDialog">Manage Requests</a></li>');
+		
 	}
 }
 
@@ -117,6 +124,17 @@ function loadRequest(index)
 	$("#location").val(request['location']);
 	$("#json").val(request['json']);
 	
+}
+
+function removeRequest(index)
+{
+	var requests = JSON.parse(localStorage.getItem('requests'));
+	
+	// Remove that item.
+	requests.splice(index, 1);
+	
+	// Save
+	localStorage.setItem('requests', JSON.stringify(requests));
 }
 
 function backToForm()

@@ -59,21 +59,7 @@
 							<span class="btn btn-primary" onclick="sendRequest();">Send</span>
 							<span class="btn pull-right" data-toggle="modal" href="#saveDialog" onclick="$('#requestName').val('');">Save</span>
 						</div>
-						<!-- The modal dialog to save-->
-						<div id="saveDialog" class="modal hide fade" style="display: none;">
-							<div class="modal-header">
-							 	<h3>Name</h3>
-							</div>
-							<div class="modal-body">
-								<center>
-								<input class="span6" id="requestName" type="text"/>
-								</center>
-							</div>
-							<div class="modal-footer">
-								<a href="#" class="btn btn-primary" onclick="saveRequest();">Save</a>
-								<a href="#" class="btn" data-dismiss="modal">Close</a>
-							</div>
-						</div>
+						
 					</form>
 					</div>
 				
@@ -92,6 +78,37 @@
 			</div>	
 		</div>
 	</div>
+	
+	<!-- The modal dialog to save-->	
+	<div id="saveDialog" class="modal hide fade" style="display: none;">
+		<div class="modal-header">
+		 	<h3>Name</h3>
+		</div>
+		<div class="modal-body">
+			<center>
+			<input class="span6" id="requestName" type="text"/>
+			</center>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn btn-primary" onclick="saveRequest();">Save</a>
+			<a href="#" class="btn" data-dismiss="modal">Close</a>
+		</div>
+	</div>
+		
+<!-- The modal dialog to manage the requests-->	
+<div id="manageDialog" class="modal hide fade" style="display: none;">
+	<div class="modal-header">
+	 	<h3>Manage Requests</h3>
+	</div>
+	<div class="modal-body">
+		<table id="manageTable" class="table">
+			
+		</table>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal">Close</a>
+	</div>
+</div>
 		
 </body>
 </html>
