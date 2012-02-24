@@ -1,22 +1,41 @@
 $(document).ready(function() {
 
+	// Activate the dropdowns
 	$('.dropdown-toggle').dropdown();
 	
+	// Hide the not needed parts
 	$("#loading").hide();
 	$("#result").hide();
 	
+	// Load the saved requests
 	loadRequests();
+	
+	// Make the saveModal dialog save on pressing enter.
+	$("#requestName").keyup(function(event){
+		if (event.keyCode == 13)
+		{
+			// Save the request
+			saveRequest();
+		}
+	});
 		
 });
 
 function sendRequest()
 {
-	// Slide out the form
-	$("#form").slideUp();
-	$("#loading").slideDown();
 	
 	var url = $("#location").val();
 	var jsonContent = $("#json").val();
+	
+	if (url.length == 0 || jsonContent.length == 0)
+	{
+		alert("Missing values. Please fill in all textfields.");
+		return;
+	}
+	
+	// Slide out the form
+	$("#form").slideUp();
+	$("#loading").slideDown();
 	
 	// Start the ajax request
 	$.ajax({
@@ -42,17 +61,27 @@ function sendRequest()
 		            message += "The request was not modified but was not retrieved from the cache.";
 		            break;
 		        case 'parseerror':
-		            message += "XML/Json format is bad.";
+		            message += "Failed to parse the retrieved JSON.";
 		            break;
 		        default:
-		            message += "HTTP Error (" + request.status + " " + request.statusText + ").";
+		            message += " HTTP Error (" + request.status + " " + request.statusText + ").";
 		    }
 		    message += "\n";
 		    alert(message + errorThrown);
-		    $("#response").html(request.responseText);
-		    
+		   	
+		   	// Hide the loading div.
 		    $("#loading").slideUp();
-		    $("#result").slideDown();
+		    
+		    // If there's a response text, show it.
+		    if (request.responseText.length > 0) {
+		    	$("#response").html(request.responseText);
+		    	$("#result").slideDown();
+		    }
+		    else {
+		    	// Show the form again. 
+		    	$("#form").slideDown();
+		    }
+		    
 		}
 	});
 	
