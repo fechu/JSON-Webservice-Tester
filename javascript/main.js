@@ -164,6 +164,11 @@ function removeRequest(index)
 	
 	// Save
 	localStorage.setItem('requests', JSON.stringify(requests));
+	
+	// If there are no more requests, dismiss the manageDialog
+	if (requests.length == 0) {
+		$("#manageDialog").modal('hide')
+	}
 }
 
 function backToForm()
