@@ -6,6 +6,9 @@ $(document).ready(function() {
 	// Activate the URL field
 	$("#location").focus();
 	
+	// validate the json on every keyup
+	$("#json").keyup(function() {validateJSON();});
+	
 	// Hide the not needed parts
 	$("#loading").hide();
 	$("#result").hide();
@@ -178,6 +181,21 @@ function backToForm()
 {
 	$("#result").slideUp();
 	$("#form").slideDown();
+}
+
+function validateJSON()
+{
+	var json = $("#json").val();
+	
+	try {
+		JSON.parse(json);
+		$("#jsonvalid").html('Valid JSON');
+		$("#jsonvalid").css('color', 'green');
+	}
+	catch(e) {
+		$("#jsonvalid").html('Invalid JSON');
+		$("#jsonvalid").css('color', 'red');
+	}
 }
 
 
