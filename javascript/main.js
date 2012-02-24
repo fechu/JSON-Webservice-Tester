@@ -62,6 +62,11 @@ function sendRequest()
 function saveRequest()
 {
 	var name = $("#requestName").val();
+	if (name.length == 0) {
+		alert("Bitte geben Sie einen Namen ein.");
+		return;
+	}
+	
 	var location = $("#location").val();
 	var json = $("#json").val();
 		
