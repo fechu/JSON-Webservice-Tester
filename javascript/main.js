@@ -3,6 +3,9 @@ $(document).ready(function() {
 	// Activate the dropdowns
 	$('.dropdown-toggle').dropdown();
 	
+	// Activate the URL field
+	$("#location").focus();
+	
 	// Hide the not needed parts
 	$("#loading").hide();
 	$("#result").hide();
