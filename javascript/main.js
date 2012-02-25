@@ -53,8 +53,28 @@ function sendRequest()
 		success: function(data) {
 			// Show the result
 			$("#loading").slideUp();
-			$("#response").html('<pre>' + JSON.stringify(data, null, 2) + '</pre');
+			
+			if (data instanceof Object || data instanceof Array) 
+			{
+				$("#response").html('<pre>' + JSON.stringify(data, null, 2) + '</pre');
+				$("#alert").html('<strong>Success!</strong> Retrieved valid JSON.');
+				$("#alert").addClass('alert-success');				
+			}
+			else 
+			{
+				// Turn the returned things into text
+				data = data.replace(/[<]/g, '&lt;');
+				data = data.replace(/[>]/g, '&gt;');
+				
+				//var tmp = document.createElement("div");
+				//tmp.innerHTML = data;
+				//data = tmp.textContent||tmp.innerText;
+				$("#response").html('<pre>' + data + '</pre>');
+				$("#alert").html('<strong>Warning!</strong> Retrieved invalid JSON.');
+				$("#alert").removeClass('alert-success');
+			}
 			$("#result").slideDown();
+			
 		}, 
 		error: function (request, type, errorThrown)
 		{
