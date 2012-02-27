@@ -50,6 +50,7 @@ function sendRequest()
 		url: url,
 		type: 'POST', 
 		crossDomain: true,
+		headers: {'X-Requested-With': 'XMLHttpRequest'},
 		success: function(data) {
 			// Show the result
 			$("#loading").slideUp();
