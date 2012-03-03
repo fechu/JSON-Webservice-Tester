@@ -43,39 +43,51 @@
 	
 	<div class="container">
 		<div class="content">
-			<div class="row">
-				<div class="span12">
-		
-					<div id="form" class="offset2 span8"> 
-					<form onsubmit="$('#json').focus();return false;">
-						<legend>JSON Request</legend>
-						<label class="control-label" for="location">Location</label>
-						<input type="text" class="input-xlarge span8" id="location"/>
-						
-						<label class="control-label" for="json">JSON Data <span id="jsonvalid" class="pull-right" style="color: green;">JSON valid</span></label>
-						<textarea id="json" class="input-xlarge span8" rows="20">{}</textarea>
-						
-						<div class="form-actions">
-							<span class="btn btn-primary" onclick="sendRequest();">Send</span>
-							<span class="btn pull-right" data-toggle="modal" href="#saveDialog" onclick="$('#requestName').value('');">Save</span>
-						</div>
-						
-					</form>
-					</div>
-				
-					<div id="loading" class="span12">
-						<center><h2><img src="img/loading.gif"> Laden...</h2></center>
-					</div>
+			<div id="form" class="row">		
+				<div class="span9"> 
+				<legend>Request</legend>
+				<form onsubmit="$('#json').focus();return false;">
+					<label class="control-label" for="location">Location</label>
+					<input type="text" class="input-xlarge span9" id="location"/>
 					
-					<div id="result" class="span8 offset2">
-						<legend>Resultat</legend>
-						<div id="alert" class="alert"></div>
-						<div id="response"> </div>
-						<div class="form-actions">
-							<span class="btn" onclick="backToForm();">Zurück</span>
-						</div>
+					<label class="control-label" for="json">JSON Data <span id="jsonvalid" class="pull-right" style="color: green;">JSON valid</span></label>
+					<textarea id="json" class="input-xlarge span9" rows="20">{}</textarea>
+					
+				</form>
+				</div>
+				<div class="span3">
+					<legend>Options</legend>
+					<label for="selectmethod">Method</label>
+					<select id"selectmethod">
+						<option>POST</option>
+						<option>GET</option>
+						<option>PUT</option>
+						<option>DELETE</option>
+					</select>
+				</div>
+				<div class="span12">
+				<div class="form-actions">
+					<span class="btn btn-primary" onclick="sendRequest();">Send</span>
+					<span class="btn pull-right" data-toggle="modal" href="#saveDialog" onclick="$('#requestName').value('');">Save</span>
+				</div>
+				</div>
+			</div>
+			<div class="row" id="loading">
+				<div class="span12">
+					<center><h2><img src="img/loading.gif"> Laden...</h2></center>
+				</div>
+			</div>
+			
+			<div id="result" class="row">	
+				<div class="span8 offset2">
+					<legend>Resultat</legend>
+					<div id="alert" class="alert"></div>
+					<div id="response"> </div>
+					<div class="form-actions">
+						<span class="btn" onclick="backToForm();">Zurück</span>
 					</div>
 				</div>
+				
 			</div>	
 		</div>
 	</div>
