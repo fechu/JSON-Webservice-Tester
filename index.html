@@ -58,17 +58,17 @@
 				<div class="span3">
 					<legend>Options</legend>
 					<label for="selectmethod">Method</label>
-					<select id"selectmethod">
-						<option>POST</option>
-						<option>GET</option>
-						<option>PUT</option>
-						<option>DELETE</option>
+					<select id="selectmethod">
+						<option value="POST">POST</option>
+						<option value="GET">GET</option>
+						<option value="PUT">PUT</option>
+						<option value="DELETE">DELETE</option>
 					</select>
 				</div>
 				<div class="span12">
 				<div class="form-actions">
 					<span class="btn btn-primary" onclick="sendRequest();">Send</span>
-					<span class="btn pull-right" data-toggle="modal" href="#saveDialog" onclick="$('#requestName').value('');">Save</span>
+					<span class="btn pull-right" data-toggle="modal" href="#saveDialog" onclick="$('#requestName').val('');">Save</span>
 				</div>
 				</div>
 			</div>

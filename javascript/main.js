@@ -32,6 +32,7 @@ function sendRequest()
 	
 	var url = $("#location").val();
 	var jsonContent = $("#json").val();
+	var method = $('#selectmethod').val();
 	
 	if (url.length == 0 || jsonContent.length == 0)
 	{
@@ -48,7 +49,7 @@ function sendRequest()
 		contentType: 'application/json; charset=utf-8',
 		data: jsonContent,
 		url: url,
-		type: 'POST', 
+		type: method, 
 		crossDomain: true,
 		success: function(data) {
 			// Show the result
