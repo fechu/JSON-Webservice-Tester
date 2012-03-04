@@ -27,16 +27,44 @@ $(document).ready(function() {
 		
 });
 
+/**
+ * Checks the method. If the selected method is GET, disable the json field. 
+ */
+function checkMethod()
+{
+	if ($('#selectmethod').val() == 'GET') 
+	{
+		$('#json').attr('disabled', 'disabled');
+	} 
+	else 
+	{
+		$('#json').removeAttr('disabled');
+	}
+}
+
+/**
+ * Sends the request. 
+ */
 function sendRequest()
 {
 	
 	var url = $("#location").val();
-	var jsonContent = $("#json").val();
 	var method = $('#selectmethod').val();
-	
-	if (url.length == 0 || jsonContent.length == 0)
+	var jsonContent;
+	// If the method is get, no body will be added.
+	if (method == 'GET') 
 	{
-		alert("Missing values. Please fill in all textfields.");
+		jsonContent = "";	
+	}
+	else
+	{
+		jsonContent = $("#json").val();
+	}
+	
+	// Check if an url was filled in.
+	if (url.length == 0)
+	{
+		alert("Missing values. Please fill in the location of the webservice.");
 		return;
 	}
 	
