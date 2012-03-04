@@ -153,6 +153,7 @@ function saveRequest()
 	
 	var location = $("#location").val();
 	var json = $("#json").val();
+	var method = $('#selectmethod').val();
 		
 	var requests = JSON.parse(localStorage.getItem('requests'));
 	if (requests == null) {
@@ -163,6 +164,7 @@ function saveRequest()
 	request['name'] = name;
 	request['location'] = location;
 	request['json'] = json;
+	request['method'] = method;
 	
 	requests.push(request);
 	
@@ -175,6 +177,9 @@ function saveRequest()
 	loadRequests();
 }
 
+/**
+ * Loads all the saved requests from the local storage.
+ */
 function loadRequests()
 {
 	// Emtpy the menu.
@@ -182,10 +187,7 @@ function loadRequests()
 	$("#manageTable").html("");
 
 	requests = JSON.parse(localStorage.getItem('requests'));
-	if (requests == null || requests.length == 0) {
-		$("#requestsMenu").append("<li><a href=\"#\" class=\"disabled\">No saved requests</a></li>");
-	}
-	else {
+	if (requests != null && requests.length != 0) {
 		// Add them 
 		for (var i=0; i < requests.length; i++)
 		{
@@ -196,8 +198,11 @@ function loadRequests()
 		// Add the manage button
 		$("#requestsMenu").append('<li class="divider"></li>');
 		$("#requestsMenu").append('<li><a data-toggle="modal" href="#manageDialog">Manage Requests</a></li>');
-		
 	}
+	
+	// Add the save current request option
+	$("#requestsMenu").append('<li><a data-toggle="modal" href="#saveDialog">Save request</a></li>');
+	
 }
 
 function loadRequest(index)
@@ -207,6 +212,7 @@ function loadRequest(index)
 	
 	$("#location").val(request['location']);
 	$("#json").val(request['json']);
+	$("#selectmethod").val(request['method']);
 	
 }
 
