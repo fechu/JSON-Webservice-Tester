@@ -43,6 +43,32 @@ function checkMethod()
 }
 
 /**
+ * Removes all data from the result of the last request.
+ */
+function resetResult()
+{
+	// Emtpy the alert
+	$("#alert").html('');
+	$("#alert").attr('class', 'alert');
+	
+	// Emtpy the response
+	$("#response").html('');
+	
+	// Empty the request info
+	$("#request-info").html('');
+}
+
+/**
+ * Sets the content and class of the alert on the result page.
+ */
+function setAlert(message, cls)
+{
+	var al = $("#alert");
+	al.html(message);
+	al.addClass(cls);
+}
+
+/**
  * Sends the request. 
  */
 function sendRequest()
@@ -72,6 +98,9 @@ function sendRequest()
 	$("#form").slideUp();
 	$("#loading").slideDown();
 	
+	// Reset the result so it's ready for new data.
+	resetResult();
+	
 	// Start the ajax request
 	$.ajax({
 		contentType: 'application/json; charset=utf-8',
@@ -86,8 +115,7 @@ function sendRequest()
 			if (data instanceof Object || data instanceof Array) 
 			{
 				$("#response").html('<pre>' + JSON.stringify(data, null, 2) + '</pre');
-				$("#alert").html('<strong>Success!</strong> Retrieved valid JSON.');
-				$("#alert").addClass('alert-success');				
+				setAlert('<strong>Success!</strong> Retrieved valid JSON.', 'alert-success');
 			}
 			else 
 			{
@@ -99,44 +127,48 @@ function sendRequest()
 				//tmp.innerHTML = data;
 				//data = tmp.textContent||tmp.innerText;
 				$("#response").html('<pre>' + data + '</pre>');
-				$("#alert").html('<strong>Warning!</strong> Retrieved invalid JSON.');
-				$("#alert").removeClass('alert-success');
+				setAlert('<strong>Warning!</strong> Retrieved invalid JSON.', 'alert-warning');
 			}
 			$("#result").slideDown();
 			
 		}, 
 		error: function (request, type, errorThrown)
 		{
-		    var message = "There was an error with the AJAX request.\n";
-		    switch (type) {
-		        case 'timeout':
-		            message += "The request timed out.";
-		            break;
-		        case 'notmodified':
-		            message += "The request was not modified but was not retrieved from the cache.";
-		            break;
-		        case 'parseerror':
-		            message += "Failed to parse the retrieved JSON.";
-		            break;
-		        default:
-		            message += " HTTP Error (" + request.status + " " + request.statusText + ").";
-		    }
-		    message += "\n";
-		    alert(message + errorThrown);
-		   	
+			setAlert('<strong>Error!</strong> There was an error while executing this request.', "alert-error");
+		
 		   	// Hide the loading div.
 		    $("#loading").slideUp();
 		    
-		    // If there's a response text, show it.
-		    if (request.responseText.length > 0) {
-		    	$("#response").html(request.responseText);
-		    	$("#result").slideDown();
-		    }
-		    else {
-		    	// Show the form again. 
-		    	$("#form").slideDown();
-		    }
+		    // show the result
+		    $("#result").slideDown();
 		    
+		}, 
+		complete: function(request, status) 
+		{
+			// Get some information about the request.
+			var requestinfo = $("#request-info");
+			requestinfo.html('');
+			
+			var tags = "";
+			
+			tags = tags + "<dt>Status</dt><dd>" + status + "</dd>";
+			tags = tags + "<dt>Statustext</dt><dd>" + request.statusText + "</dd>";
+			tags = tags + "<dt>HTTP Status Code</dt><dd>" + request.status + "</dd>";
+			
+			tags = tags + "<dt>Headers</dt><dd><ul>";
+			var responseHeaders = request.getAllResponseHeaders();
+			var headers = responseHeaders.split("\n");
+			for (var i = 0; i < headers.length; i++) 
+			{
+				var header = headers[i];
+				if (header !== "") {
+					tags = tags + "<li>" + header + "</li>";
+				}
+			}
+			tags = tags + "</ul></dd>";
+			
+			
+			requestinfo.append("<dl>" + tags + "</dl>");
 		}
 	});
 	
