@@ -28,14 +28,12 @@
 			<div class="container">
 				<a class="brand" href="#">JSON Webservice Tester</a>
 				<ul class="nav">
-				    <ul class="nav pull-right">
-				    	<li class="dropdown">
-				    		<a class="dropdown-toggle" data-toggle="dropdown">Requests <b class="caret"></b></a>
-				    		<ul id="requestsMenu" class="dropdown-menu">
-				    			<li><a href="#">Test</a></li>
-				    		</ul>
-				    	</li>
-				    </ul>
+				 	<li class="dropdown">
+				    	<a class="dropdown-toggle" data-toggle="dropdown">Requests <b class="caret"></b></a>
+				    	<ul id="requestsMenu" class="dropdown-menu">
+				    		<li><a href="#">Test</a></li>
+				    	</ul>
+				    </li>
 				</ul>
 			</div>
 		</div>
@@ -45,7 +43,7 @@
 		<div class="content">
 			<div id="form" class="row">		
 				<div class="span9"> 
-				<legend>Request</legend>
+				<div class="page-header"><h3>Request</h3></div>
 				<form onsubmit="$('#json').focus();return false;">
 					<label class="control-label" for="location">Location</label>
 					<input type="text" class="input-xlarge span9" id="location"/>
@@ -56,7 +54,7 @@
 				</form>
 				</div>
 				<div class="span3">
-					<legend>Options</legend>
+					<div class="page-header"><h3>Options</h3></div>
 					<label for="selectmethod">Method</label>
 					<select id="selectmethod" onchange="checkMethod(this);">
 						<option value="POST">POST</option>
@@ -72,16 +70,16 @@
 				</div>
 			</div>
 			<div class="row" id="loading">
-				<div class="span12">
-					<center><h2><img src="img/loading.gif"> Laden...</h2></center>
+				<div class="span12" style="text-align: center;">
+					<h2><img src="img/loading.gif" alt="Loading Indicator"> Laden...</h2>
 				</div>
 			</div>
 			
 			<div id="result" class="row">	
 				<div class="span8 offset2">
-					<div id="alert" class="alert"></div>
 					<!-- The received data -->
-					<legend>Response</legend>
+					<div class="page-header"><h3>Response</h3></div>
+					<div id="alert" class="alert"></div>
 					<div id="response"> </div>
 					
 					<!-- Some infos about the request -->
@@ -100,10 +98,8 @@
 		<div class="modal-header">
 		 	<h3>Name</h3>
 		</div>
-		<div class="modal-body">
-			<center>
+		<div class="modal-body" style="text-align: center;">
 			<input class="span6" id="requestName" type="text"/>
-			</center>
 		</div>
 		<div class="modal-footer">
 			<a href="#" class="btn btn-primary" onclick="saveRequest();">Save</a>
