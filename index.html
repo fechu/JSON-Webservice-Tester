@@ -28,14 +28,12 @@
 			<div class="container">
 				<a class="brand" href="#">JSON Webservice Tester</a>
 				<ul class="nav">
-				    <ul class="nav pull-right">
-				    	<li class="dropdown">
-				    		<a class="dropdown-toggle" data-toggle="dropdown">Requests <b class="caret"></b></a>
-				    		<ul id="requestsMenu" class="dropdown-menu">
-				    			<li><a href="#">Test</a></li>
-				    		</ul>
-				    	</li>
-				    </ul>
+				 	<li class="dropdown">
+				    	<a class="dropdown-toggle" data-toggle="dropdown">Requests <b class="caret"></b></a>
+				    	<ul id="requestsMenu" class="dropdown-menu">
+				    		<li><a href="#">Test</a></li>
+				    	</ul>
+				    </li>
 				</ul>
 			</div>
 		</div>
@@ -43,37 +41,52 @@
 	
 	<div class="container">
 		<div class="content">
-			<div class="row">
-				<div class="span12">
-		
-					<div id="form" class="offset2 span8"> 
-					<form onsubmit="$('#json').focus();return false;">
-						<legend>JSON Request</legend>
-						<label class="control-label" for="location">Location</label>
-						<input type="text" class="input-xlarge span8" id="location" value="http://"/>
-						
-						<label class="control-label" for="json">JSON Data <span id="jsonvalid" class="pull-right" style="color: green;">JSON valid</span></label>
-						<textarea id="json" class="input-xlarge span8" rows="20">{}</textarea>
-						
-						<div class="form-actions">
-							<span class="btn btn-primary" onclick="sendRequest();">Send</span>
-							<span class="btn pull-right" data-toggle="modal" href="#saveDialog" onclick="$('#requestName').value('');">Save</span>
-						</div>
-						
-					</form>
-					</div>
-				
-					<div id="loading" class="span12">
-						<center><h2><img src="img/loading.gif"> Laden...</h2></center>
-					</div>
+			<div id="form" class="row">		
+				<div class="span9"> 
+				<div class="page-header"><h3>Request</h3></div>
+				<form onsubmit="$('#json').focus();return false;">
+					<label class="control-label" for="location">Location</label>
+					<input type="text" class="input-xlarge span9" id="location" value="http://"/>
 					
-					<div id="result" class="span8 offset2">
-						<legend>Resultat</legend>
-						<div id="alert" class="alert"></div>
-						<div id="response"> </div>
-						<div class="form-actions">
-							<span class="btn" onclick="backToForm();">Zurück</span>
-						</div>
+					<label class="control-label" for="json">JSON Data <span id="jsonvalid" class="pull-right" style="color: green;">JSON valid</span></label>
+					<textarea id="json" class="input-xlarge span9" rows="20">{}</textarea>
+					
+				</form>
+				</div>
+				<div class="span3">
+					<div class="page-header"><h3>Options</h3></div>
+					<label for="selectmethod">Method</label>
+					<select id="selectmethod" onchange="checkMethod(this);">
+						<option value="POST">POST</option>
+						<option value="GET">GET</option>
+						<option value="PUT">PUT</option>
+						<option value="DELETE">DELETE</option>
+					</select>
+				</div>
+				<div class="span12">
+				<div class="form-actions">
+					<span class="btn btn-primary pull-right" onclick="sendRequest();">Send</span>
+				</div>
+				</div>
+			</div>
+			<div class="row" id="loading">
+				<div class="span12" style="text-align: center;">
+					<h2><img src="img/loading.gif" alt="Loading Indicator"> Laden...</h2>
+				</div>
+			</div>
+			
+			<div id="result" class="row">	
+				<div class="span8 offset2">
+					<!-- The received data -->
+					<div class="page-header"><h3>Response</h3></div>
+					<div id="alert" class="alert"></div>
+					<div id="response"> </div>
+					
+					<!-- Some infos about the request -->
+					<div id="request-info"> </div>
+					
+					<div class="form-actions">
+						<span class="btn" onclick="backToForm();">Back</span>
 					</div>
 				</div>
 			</div>	
@@ -85,10 +98,8 @@
 		<div class="modal-header">
 		 	<h3>Name</h3>
 		</div>
-		<div class="modal-body">
-			<center>
+		<div class="modal-body" style="text-align: center;">
 			<input class="span6" id="requestName" type="text"/>
-			</center>
 		</div>
 		<div class="modal-footer">
 			<a href="#" class="btn btn-primary" onclick="saveRequest();">Save</a>

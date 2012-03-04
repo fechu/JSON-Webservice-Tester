@@ -27,15 +27,70 @@ $(document).ready(function() {
 		
 });
 
+/**
+ * Checks the method. If the selected method is GET, disable the json field. 
+ */
+function checkMethod()
+{
+	if ($('#selectmethod').val() == 'GET') 
+	{
+		$('#json').attr('disabled', 'disabled');
+	} 
+	else 
+	{
+		$('#json').removeAttr('disabled');
+	}
+}
+
+/**
+ * Removes all data from the result of the last request.
+ */
+function resetResult()
+{
+	// Emtpy the alert
+	$("#alert").html('');
+	$("#alert").attr('class', 'alert');
+	
+	// Emtpy the response
+	$("#response").html('');
+	
+	// Empty the request info
+	$("#request-info").html('');
+}
+
+/**
+ * Sets the content and class of the alert on the result page.
+ */
+function setAlert(message, cls)
+{
+	var al = $("#alert");
+	al.html(message);
+	al.addClass(cls);
+}
+
+/**
+ * Sends the request. 
+ */
 function sendRequest()
 {
 	
 	var url = $("#location").val();
-	var jsonContent = $("#json").val();
-	
-	if (url.length == 0 || jsonContent.length == 0)
+	var method = $('#selectmethod').val();
+	var jsonContent;
+	// If the method is get, no body will be added.
+	if (method == 'GET') 
 	{
-		alert("Missing values. Please fill in all textfields.");
+		jsonContent = "";	
+	}
+	else
+	{
+		jsonContent = $("#json").val();
+	}
+	
+	// Check if an url was filled in.
+	if (url.length == 0)
+	{
+		alert("Missing values. Please fill in the location of the webservice.");
 		return;
 	}
 	
@@ -43,12 +98,15 @@ function sendRequest()
 	$("#form").slideUp();
 	$("#loading").slideDown();
 	
+	// Reset the result so it's ready for new data.
+	resetResult();
+	
 	// Start the ajax request
 	$.ajax({
 		contentType: 'application/json; charset=utf-8',
 		data: jsonContent,
 		url: url,
-		type: 'POST', 
+		type: method, 
 		crossDomain: true,
 		headers: {'X-Requested-With': 'XMLHttpRequest'},
 		success: function(data) {
@@ -58,8 +116,7 @@ function sendRequest()
 			if (data instanceof Object || data instanceof Array) 
 			{
 				$("#response").html('<pre>' + JSON.stringify(data, null, 2) + '</pre');
-				$("#alert").html('<strong>Success!</strong> Retrieved valid JSON.');
-				$("#alert").addClass('alert-success');				
+				setAlert('<strong>Success!</strong> Retrieved valid JSON.', 'alert-success');
 			}
 			else 
 			{
@@ -71,44 +128,48 @@ function sendRequest()
 				//tmp.innerHTML = data;
 				//data = tmp.textContent||tmp.innerText;
 				$("#response").html('<pre>' + data + '</pre>');
-				$("#alert").html('<strong>Warning!</strong> Retrieved invalid JSON.');
-				$("#alert").removeClass('alert-success');
+				setAlert('<strong>Warning!</strong> Retrieved invalid JSON.', 'alert-warning');
 			}
 			$("#result").slideDown();
 			
 		}, 
 		error: function (request, type, errorThrown)
 		{
-		    var message = "There was an error with the AJAX request.\n";
-		    switch (type) {
-		        case 'timeout':
-		            message += "The request timed out.";
-		            break;
-		        case 'notmodified':
-		            message += "The request was not modified but was not retrieved from the cache.";
-		            break;
-		        case 'parseerror':
-		            message += "Failed to parse the retrieved JSON.";
-		            break;
-		        default:
-		            message += " HTTP Error (" + request.status + " " + request.statusText + ").";
-		    }
-		    message += "\n";
-		    alert(message + errorThrown);
-		   	
+			setAlert('<strong>Error!</strong> There was an error while executing this request.', "alert-error");
+		
 		   	// Hide the loading div.
 		    $("#loading").slideUp();
 		    
-		    // If there's a response text, show it.
-		    if (request.responseText.length > 0) {
-		    	$("#response").html(request.responseText);
-		    	$("#result").slideDown();
-		    }
-		    else {
-		    	// Show the form again. 
-		    	$("#form").slideDown();
-		    }
+		    // show the result
+		    $("#result").slideDown();
 		    
+		}, 
+		complete: function(request, status) 
+		{
+			// Get some information about the request.
+			var requestinfo = $("#request-info");
+			requestinfo.html('');
+			
+			var tags = "";
+			
+			tags = tags + "<dt>Status</dt><dd>" + status + "</dd>";
+			tags = tags + "<dt>Statustext</dt><dd>" + request.statusText + "</dd>";
+			tags = tags + "<dt>HTTP Status Code</dt><dd>" + request.status + "</dd>";
+			
+			tags = tags + "<dt>Headers</dt><dd><ul>";
+			var responseHeaders = request.getAllResponseHeaders();
+			var headers = responseHeaders.split("\n");
+			for (var i = 0; i < headers.length; i++) 
+			{
+				var header = headers[i];
+				if (header !== "") {
+					tags = tags + "<li>" + header + "</li>";
+				}
+			}
+			tags = tags + "</ul></dd>";
+			
+			
+			requestinfo.append("<dl>" + tags + "</dl>");
 		}
 	});
 	
@@ -125,6 +186,7 @@ function saveRequest()
 	
 	var location = $("#location").val();
 	var json = $("#json").val();
+	var method = $('#selectmethod').val();
 		
 	var requests = JSON.parse(localStorage.getItem('requests'));
 	if (requests == null) {
@@ -135,6 +197,7 @@ function saveRequest()
 	request['name'] = name;
 	request['location'] = location;
 	request['json'] = json;
+	request['method'] = method;
 	
 	requests.push(request);
 	
@@ -147,6 +210,9 @@ function saveRequest()
 	loadRequests();
 }
 
+/**
+ * Loads all the saved requests from the local storage.
+ */
 function loadRequests()
 {
 	// Emtpy the menu.
@@ -154,10 +220,7 @@ function loadRequests()
 	$("#manageTable").html("");
 
 	requests = JSON.parse(localStorage.getItem('requests'));
-	if (requests == null || requests.length == 0) {
-		$("#requestsMenu").append("<li><a href=\"#\" class=\"disabled\">No saved requests</a></li>");
-	}
-	else {
+	if (requests != null && requests.length != 0) {
 		// Add them 
 		for (var i=0; i < requests.length; i++)
 		{
@@ -168,8 +231,11 @@ function loadRequests()
 		// Add the manage button
 		$("#requestsMenu").append('<li class="divider"></li>');
 		$("#requestsMenu").append('<li><a data-toggle="modal" href="#manageDialog">Manage Requests</a></li>');
-		
 	}
+	
+	// Add the save current request option
+	$("#requestsMenu").append('<li><a data-toggle="modal" href="#saveDialog">Save request</a></li>');
+	
 }
 
 function loadRequest(index)
@@ -179,6 +245,7 @@ function loadRequest(index)
 	
 	$("#location").val(request['location']);
 	$("#json").val(request['json']);
+	$("#selectmethod").val(request['method']);
 	
 }
 
