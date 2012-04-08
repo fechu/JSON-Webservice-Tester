@@ -146,6 +146,9 @@ function sendRequest()
 		   	// Hide the loading div.
 		    $("#loading").slideUp();
 		    
+		    // If any data was received, show it
+		    $("#response").html('<pre>' + request.responseText + '</pre>');
+		    
 		    // show the result
 		    $("#result").slideDown();
 		    
