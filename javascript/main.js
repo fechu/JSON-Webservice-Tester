@@ -118,6 +118,12 @@ function sendRequest()
 				$("#response").html('<pre>' + JSON.stringify(data, null, 2) + '</pre');
 				setAlert('<strong>Success!</strong> Retrieved valid JSON.', 'alert-success');
 			}
+			else if (data == null) 
+			{
+				// Data is null. Show only the information. 
+				setAlert('The request was executed successfully, but no data was received.', 'alert-info');
+				$("#response").html('');
+			}
 			else 
 			{
 				// Turn the returned things into text
