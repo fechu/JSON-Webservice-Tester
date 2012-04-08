@@ -199,6 +199,18 @@ function saveRequest()
 	request['json'] = json;
 	request['method'] = method;
 	
+	// Check if a request with the same name already exists. 
+	for (var i=0; i < requests.length; i++)
+	{
+		if (requests[i]['name'] == name) 
+		{
+			// Remove that request
+			requests.splice(i, 1);
+			break;
+		}
+	}
+	
+	// Add the new request. 
 	requests.push(request);
 	
 	localStorage.setItem('requests', JSON.stringify(requests));
